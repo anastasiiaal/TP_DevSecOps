@@ -104,9 +104,6 @@ jobs:
 
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_PROJECT_KEY: anastasiiaal_TP_DevSecOps
-      SONAR_ORGANIZATION: anastasiiaal
-      SONAR_HOST_URL: https://sonarcloud.io
 
     steps:
       - name: Checkout repository
@@ -117,7 +114,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: SonarCloud Scan (backend)
-        uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          projectBaseDir: backend
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Run SonarScanner (backend)
+        working-directory: backend
+        run: >
+          "C:\sonar-scanner\bin\sonar-scanner.bat"
+          -D"sonar.login=$env:SONAR_TOKEN"
