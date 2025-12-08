@@ -27,7 +27,7 @@ Exemple : `feature/auth-login`
 
 ### Rule protection screenshot
 
-![rules](rules.png)
+![rules](screenshots/tp1_rules.png)
 
 ## 2/ Convention de commit (Commitlint)
 
@@ -64,6 +64,23 @@ Exécute automatiquement :
 Vérifie automatiquement que le message de commit respecte Conventional Commits.
 
 ➡️ Un commit avec un message non conforme est refusé.
+
+
+# TP2 – Intégration Continue (CI) : Build, Lint, Tests & Analyse automatisée
+
+### Captures : 
+- Runner local
+![alt text](screenshots/tp2_1.png)
+
+- Tableau de bord Sonar 
+![alt text](screenshots/tp2_2.png)
+
+- PR bloqué
+![alt text](screenshots/tp2_3.png)
+
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=anastasiiaal_TP_DevSecOps)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=anastasiiaal_TP_DevSecOps&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=anastasiiaal_TP_DevSecOps)
 
 ____
 ____
