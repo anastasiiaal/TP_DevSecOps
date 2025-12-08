@@ -25,6 +25,10 @@ Exemple : `feature/auth-login`
 - ❌ Aucun commit direct sur `develop`
 - ❌ Pas de merge commit si "Require linear history" est activé
 
+### Rule protection screenshot
+
+![rules](rules.png)
+
 ## 2/ Convention de commit (Commitlint)
 
 Le projet suit le standard **Conventional Commits** pour maintenir des messages de commit clairs et exploitables.
