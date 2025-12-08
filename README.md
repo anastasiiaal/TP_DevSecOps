@@ -1,3 +1,69 @@
+____
+
+# TP 1 : Workflow Git & Qualité du Code
+
+## 1/ Règles Git
+
+Ce projet suit un workflow structuré pour garantir un historique propre et un développement collaboratif efficace.
+
+### Branches principales
+- `main` → version stable et prête au déploiement  
+- `develop` → environnement d’intégration, reçoit les fonctionnalités validées
+
+### Branches de développement
+Toute nouvelle fonctionnalité doit être développée dans une branche dédiée : `feature/<nom-de-la-feature>`
+
+Exemple : `feature/auth-login`
+
+### Pull Requests obligatoires
+- Toute feature doit être fusionnée via une **Pull Request vers `develop`**
+- Revue obligatoire
+- Pas de merge direct sans validation
+
+### 🚫 Actions interdites
+- ❌ Aucun commit direct sur `main`
+- ❌ Aucun commit direct sur `develop`
+- ❌ Pas de merge commit si "Require linear history" est activé
+
+## 2/ Convention de commit (Commitlint)
+
+Le projet suit le standard **Conventional Commits** pour maintenir des messages de commit clairs et exploitables.
+
+### Exemples valides
+- `feat: add authentication`
+- `fix: fix PostgreSQL connection issue`
+- `refactor: simplify user service`
+- `docs: add Git rules to README`
+- `chore: update dependencies`
+
+### Types les plus utilisés
+- `feat`: nouvelle fonctionnalité  
+- `fix`: correction de bug  
+- `refactor`: amélioration interne du code  
+- `docs`: documentation  
+- `chore`: tâches diverses (MAJ dépendances, config…)  
+- `test`: ajout ou mise à jour des tests  
+
+
+## 3/ Hooks Husky actifs
+
+Afin de garantir la qualité du code avant chaque commit, le projet utilise **Husky** et **Commitlint**.
+
+### Hook `pre-commit`
+Exécute automatiquement :
+- Lint du **frontend**
+- Lint du **backend**
+
+➡️ Le commit est bloqué si des erreurs ESLint sont détectées.
+
+### Hook `commit-msg`
+Vérifie automatiquement que le message de commit respecte Conventional Commits.
+
+➡️ Un commit avec un message non conforme est refusé.
+
+____
+____
+
 # Gym Management System
 
 A complete fullstack gym management application built with modern web technologies.
