@@ -65,6 +65,7 @@ Vérifie automatiquement que le message de commit respecte Conventional Commits.
 
 ➡️ Un commit avec un message non conforme est refusé.
 
+____
 
 # TP2 – Intégration Continue (CI) : Build, Lint, Tests & Analyse automatisée
 
@@ -89,7 +90,7 @@ Vérifie automatiquement que le message de commit respecte Conventional Commits.
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=anastasiiaal_TP_DevSecOps&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=anastasiiaal_TP_DevSecOps)
 
 ____
-____
+
 
 # Gym Management System
 
