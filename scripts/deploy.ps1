@@ -26,6 +26,13 @@ Write-Host "Frontend : $frontendImage"
 Write-Host "Commit SHA : $sha"
 Write-Host "=============================================="
 
+# S'assurer qu'un .env existe (vide si besoin)
+$envFile = Join-Path (Get-Location) ".env"
+if (-not (Test-Path $envFile)) {
+    Write-Host ".env introuvable, création d'un fichier .env vide (env réelles via GitHub Secrets)..."
+    New-Item $envFile -ItemType File | Out-Null
+}
+
 # 1/ Arrêter les conteneurs en cours (sans supprimer les volumes)
 Write-Host "Arrêt de la stack Docker Compose..."
 docker compose down
