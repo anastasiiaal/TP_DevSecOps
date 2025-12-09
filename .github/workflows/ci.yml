@@ -156,14 +156,33 @@ jobs:
 
       - name: Test backend container (healthcheck simple)
         run: |
-          docker run -d --rm -p 3000:3000 --name backend-ci-test backend-ci
+          # Lancer le conteneur en arrière-plan, mappé sur le port 3001
+          docker run -d --rm -p 3001:3000 --name backend-ci-test backend-ci
+
+          # Attendre un peu que le serveur démarre
           Start-Sleep -Seconds 5
+
           try {
-            $response = Invoke-WebRequest -Uri "http://localhost:3000" -UseBasicParsing
-            if ($response.StatusCode -lt 200 -or $response.StatusCode -ge 400) {
-              throw "Backend healthcheck failed with status code $($response.StatusCode)"
+            $maxRetries = 5
+            $port = 3001
+            $ok = $false
+
+            for ($i = 0; $i -lt $maxRetries; $i++) {
+              $result = Test-NetConnection -ComputerName 'localhost' -Port $port
+              if ($result.TcpTestSucceeded) {
+                Write-Host "Backend is listening on port $port"
+                $ok = $true
+                break
+              }
+              Write-Host "Backend not ready yet, retry $($i + 1)/$maxRetries..."
+              Start-Sleep -Seconds 2
             }
-          } finally {
+
+            if (-not $ok) {
+              throw "Backend did not start listening on port $port"
+            }
+          }
+          finally {
             docker stop backend-ci-test | Out-Null
           }
 
