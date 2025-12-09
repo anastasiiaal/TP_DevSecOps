@@ -50,3 +50,4 @@ Write-Host "Redémarrage de la stack avec docker compose up -d..."
 docker compose up -d
 
 Write-Host "Déploiement terminé avec succès 🎉"
+docker compose ps
