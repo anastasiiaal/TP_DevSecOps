@@ -123,3 +123,4 @@ jobs:
         run: |
           & "C:\sonar-scanner\bin\sonar-scanner.bat" `
           -D"sonar.login=$env:SONAR_TOKEN"
+
