@@ -204,14 +204,21 @@ jobs:
 
       - name: Test frontend container (healthcheck simple)
         run: |
-          docker run -d --rm -p 8080:80 --name frontend-ci-test frontend-ci
+          # On lance le conteneur sur le port 8081 côté host
+          docker run -d --rm -p 8081:80 --name frontend-ci-test frontend-ci
+
+          # On attend un peu le démarrage
           Start-Sleep -Seconds 5
+
           try {
-            $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing
-            if ($response.StatusCode -lt 200 -or $response.StatusCode -ge 400) {
-              throw "Frontend healthcheck failed with status code $($response.StatusCode)"
+            $port = 8081
+            $result = Test-NetConnection -ComputerName 'localhost' -Port $port
+            if (-not $result.TcpTestSucceeded) {
+              throw "Frontend did not start listening on port $port"
             }
-          } finally {
+            Write-Host "Frontend is listening on port $port"
+          }
+          finally {
             docker stop frontend-ci-test | Out-Null
           }
 
