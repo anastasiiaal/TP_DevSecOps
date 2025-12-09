@@ -119,7 +119,19 @@ ____
 ![alt text](screenshots/tp3_7.png)
 ![alt text](screenshots/tp3_8.png)
 
+- Secrets du repo
+![alt text](screenshots/tp8_9.png) 
 
+- Images dans le registre
+![alt text](screenshots/tp8_10.png)
+
+- Tous les jobs passés
+![alt text](screenshots/tp8_11.png)
+
+
+## Liens images
+- Image backend : ghcr.io/anastasiiaal/cloudnative-backend:52a81481d90206efe287db5f0efa257d9fddaa64
+- Image frontend : ghcr.io/anastasiiaal/cloudnative-frontend:52a81481d90206efe287db5f0efa257d9fddaa64
 ____
 
 
