@@ -189,9 +189,11 @@ jobs:
       - name: Tag & push backend image
         run: |
           $sha = "${{ github.sha }}"
-          $backendTag = "$env:BACKEND_IMAGE:$sha"
-          docker tag backend-ci $backendTag
-          docker push $backendTag
+          $image = "$env:BACKEND_IMAGE:$sha"
+
+          Write-Host "Tagging backend-ci as $image"
+          docker tag backend-ci $image
+          docker push $image
 
       # -------- FRONTEND --------
       - name: Build frontend image
@@ -213,7 +215,9 @@ jobs:
       - name: Tag & push frontend image
         run: |
           $sha = "${{ github.sha }}"
-          $frontendTag = "$env:FRONTEND_IMAGE:$sha"
-          docker tag frontend-ci $frontendTag
-          docker push $frontendTag
+          $image = "$env:FRONTEND_IMAGE:$sha"
+
+          Write-Host "Tagging frontend-ci as $image"
+          docker tag frontend-ci $image
+          docker push $image
 
