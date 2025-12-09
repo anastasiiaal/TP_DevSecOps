@@ -78,6 +78,12 @@ Vérifie automatiquement que le message de commit respecte Conventional Commits.
 - PR bloqué
 ![alt text](screenshots/tp2_3.png)
 
+- Quality Gate enfin passé (une fois supprimé 🤡)
+![alt text](screenshots/tp2_4.png)
+
+- Tests CI passés
+![alt text](screenshots/tp2_5.png)
+
 [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=anastasiiaal_TP_DevSecOps)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=anastasiiaal_TP_DevSecOps&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=anastasiiaal_TP_DevSecOps)
