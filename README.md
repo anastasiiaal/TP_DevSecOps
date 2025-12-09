@@ -89,6 +89,23 @@ ____
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=anastasiiaal_TP_DevSecOps&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=anastasiiaal_TP_DevSecOps)
 
+
+____
+
+# TP3 – Dockerisation et orchestration
+
+### Screenhots
+- Docker de backend lancé
+![alt text](screenshots/tp3_1.png)
+
+- Docker frontend lancé
+![alt text](screenshots/tp3_2.png)
+
+- Les deux sur Docker desktop
+![alt text](screenshots/tp3_3.png)
+
+- Première connexion sur http://localhost:8080/login (pas de BDD encore)
+![alt text](screenshots/tp3_4.png)
 ____
 
 
