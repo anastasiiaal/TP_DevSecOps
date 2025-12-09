@@ -106,6 +106,19 @@ ____
 
 - Première connexion sur http://localhost:8080/login (pas de BDD encore)
 ![alt text](screenshots/tp3_4.png)
+
+- Docker compose up lancé
+![alt text](screenshots/tp3_5.1.png)
+![alt text](screenshots/tp3_5.2.png)
+![alt text](screenshots/tp3_5.3.png)
+
+- App après l'ajout de la BDD & seeds
+![alt text](screenshots/tp3_6.png)
+
+- Containers sur Docker desktop
+![alt text](screenshots/tp3_7.png)
+
+
 ____
 
 
