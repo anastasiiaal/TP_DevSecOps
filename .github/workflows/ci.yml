@@ -234,3 +234,33 @@ jobs:
           docker tag frontend-ci $image
           docker push $image
 
+  deploy:
+    runs-on: self-hosted
+    needs: docker-images
+
+    # On peut limiter le déploiement à une branche (ex: main)
+    if: github.ref == 'refs/heads/main'
+
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      REGISTRY: ghcr.io
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # (Optionnel mais recommandé) : login à GHCR au cas où les images sont privées
+      - name: Docker login to GHCR
+        run: |
+          $u = "${{ secrets.DOCKER_USERNAME }}"
+          $p = "${{ secrets.DOCKER_PASSWORD }}"
+          docker login ghcr.io -u $u -p $p
+
+      - name: Run deployment script
+        run: |
+          & "scripts/deploy.ps1"
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
