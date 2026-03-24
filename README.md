@@ -460,3 +460,48 @@ Après lancement :
 ![alt text](screenshots/tp6_1.png)
 ![alt text](screenshots/tp6_2.png)
 ![alt text](screenshots/tp6_3.png)
+
+## Collecte des métriques avec Prometheus
+
+Le backend expose un endpoint `/metrics` permettant à Prometheus de collecter les données système.
+
+### Implémentation
+
+Une route a été ajoutée avec la librairie `prom-client` :
+
+```js
+const client = require('prom-client');
+
+client.collectDefaultMetrics();
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
+```
+
+### Configuration Prometheus
+
+Le backend est déclaré comme target dans `prometheus.yml` :
+
+```yaml
+scrape_configs:
+  - job_name: "backend"
+    static_configs:
+      - targets: ["backend-blue:3000"]
+```
+
+### Vérification
+
+Dans l’interface Prometheus (http://localhost:9090 → Status → Targets) :
+
+![alt text](screenshots/tp6_4.png)
+
+* le service `backend` est détecté
+* son état est `UP`
+* les métriques sont correctement récupérées
+
+Cette configuration permet d’observer en temps réel les performances du backend (CPU, mémoire, etc.).
+
+Les métriques du backend sont interrogeables via Prometheus et permettent d’observer en temps réel l’utilisation CPU et mémoire du service.
+![alt text](screenshots/tp6_5.png)
