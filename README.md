@@ -197,3 +197,31 @@ Une fois ces éléments configurés :
 
 ____
 
+# TP5 – Déploiement blue/green avec reverse proxy (Vue / NestJS / Postgres)
+
+### Déploiement de la version Blue
+
+Après avoir structuré les fichiers Docker Compose, nous lançons l’infrastructure de base (PostgreSQL + reverse proxy), puis la version **blue** de l’application.
+
+```bash
+docker compose -f docker-compose.base.yml up -d
+docker compose -f docker-compose.base.yml -f docker-compose.blue.yml up -d
+```
+
+Résultat :
+
+![alt text](screenshots/tp5_1.png)
+
+On constate que :
+
+* Le conteneur `postgres` est **healthy**
+* Le reverse proxy `nginx` est **running**
+* Les services `backend-blue` et `frontend-blue` sont **démarrés**
+
+👉 À ce stade :
+
+* une première version de l’application (blue) est déployée
+* l’infrastructure est prête à accueillir une seconde version (green)
+* aucune bascule n’est encore configurée côté proxy
+
+⚠️ L’application n’est pas encore accessible via le navigateur car le reverse proxy n’est pas encore configuré.
