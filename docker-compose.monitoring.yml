@@ -41,3 +41,4 @@ services:
 networks:
   app-network:
     external: true
+    name: tp_devsecops_app-network
