@@ -120,13 +120,13 @@ ____
 ![alt text](screenshots/tp3_8.png)
 
 - Secrets du repo
-![alt text](screenshots/tp8_9.png) 
+![alt text](screenshots/tp3_9.png) 
 
 - Images dans le registre
-![alt text](screenshots/tp8_10.png)
+![alt text](screenshots/tp3_10.png)
 
 - Tous les jobs passés
-![alt text](screenshots/tp8_11.png)
+![alt text](screenshots/tp3_11.png)
 
 
 ## Liens images
