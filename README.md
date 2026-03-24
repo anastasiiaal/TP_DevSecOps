@@ -505,3 +505,76 @@ Cette configuration permet d’observer en temps réel les performances du backe
 
 Les métriques du backend sont interrogeables via Prometheus et permettent d’observer en temps réel l’utilisation CPU et mémoire du service.
 ![alt text](screenshots/tp6_5.png)
+
+### Collecte des logs avec Loki et Promtail
+
+Les logs de l’application sont collectés et centralisés grâce à Promtail et Loki.
+
+Principe
+- Promtail récupère les logs des conteneurs Docker
+- Les logs sont envoyés à Loki
+- Grafana interroge Loki pour afficher les logs
+
+### Configuration Promtail
+
+Promtail est configuré pour lire les logs Docker via le socket Docker :
+````
+scrape_configs:
+  - job_name: docker
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+
+    relabel_configs:
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.*)'
+        target_label: 'container'
+
+      - source_labels: ['__meta_docker_container_name']
+        target_label: 'job'
+````
+
+#### Cette configuration permet de :
+
+- détecter automatiquement les conteneurs
+- associer des labels (notamment job=docker)
+- envoyer les logs à Loki
+
+### Configuration Loki
+
+Loki est utilisé comme backend de stockage des logs et expose une API interne accessible par Grafana.
+
+### Configuration Grafana
+
+Une datasource Loki a été ajoutée dans Grafana avec l’URL suivante :
+
+http://loki:3100
+### Vérification
+
+Dans Grafana, via l’onglet Explore :
+
+- sélection de la datasource Loki
+- utilisation de la requête suivante :
+`{job="docker"}`
+
+Les logs des conteneurs apparaissent avec :
+
+- timestamp
+- niveau (INFO, ERROR)
+- message
+
+![alt text](screenshots/tp6_6.png)
+
+Cette configuration permet de centraliser et d’analyser les logs de tous les services de l’application.
+
+### Conclusion
+
+La stack d’observabilité mise en place permet de couvrir deux piliers essentiels :
+
+* les métriques (Prometheus)
+* les logs (Loki + Promtail)
+
+L’application est désormais observable en temps réel, ce qui permet :
+
+- de surveiller les performances
+- d’identifier rapidement les erreurs
+- de diagnostiquer les problèmes en production
