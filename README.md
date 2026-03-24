@@ -413,3 +413,50 @@ powershell ./scripts/blue-green-deploy.ps1
 Le script est exécuté automatiquement dans le pipeline GitHub Actions sur la branche `main`.
 
 Cette approche permet un déploiement continu sans interruption de service.
+
+----
+
+# TP6 – Monitoring & Observabilité d’une application conteneurisée
+
+## Monitoring – Déploiement de la stack
+
+Une stack de monitoring complète a été déployée afin d’assurer la collecte et la visualisation des métriques et des logs.
+
+### Services déployés
+
+Les services suivants sont lancés via Docker Compose :
+
+* Prometheus : collecte des métriques
+* Grafana : visualisation et dashboards
+* Loki : stockage des logs
+* Promtail : collecte des logs
+
+### Lancement
+
+```bash
+docker compose -f docker-compose.monitoring.yml up -d
+```
+
+### Accès aux interfaces
+
+* Grafana : http://localhost:3000
+* Prometheus : http://localhost:9090
+
+### Réseau
+
+La stack monitoring est connectée au réseau `app-network`, partagé avec l’application, permettant :
+
+* à Prometheus de scraper le backend
+* à Promtail d’accéder aux logs Docker
+
+### Vérification
+
+Après lancement :
+
+* tous les conteneurs sont actifs (`docker ps`)
+* Grafana est accessible via le navigateur
+* Prometheus est accessible et opérationnel
+
+![alt text](screenshots/tp6_1.png)
+![alt text](screenshots/tp6_2.png)
+![alt text](screenshots/tp6_3.png)
