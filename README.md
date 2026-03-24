@@ -381,3 +381,35 @@ Le signal de reload est pris en compte par Nginx :
 - le rollback est possible à tout moment en modifiant la configuration
 
 Cette approche permet un déploiement sans interruption de service (zero downtime).
+
+## Automatisation du déploiement Blue/Green
+
+Le déploiement blue/green est automatisé via un script PowerShell exécuté par la CI.
+
+### Principe
+
+Un fichier `active_color.txt` permet de stocker la version actuellement active :
+
+```text
+blue
+```
+
+Le script :
+
+1. lit la couleur active
+2. déploie la version opposée
+3. met à jour la configuration Nginx
+4. recharge le proxy
+5. met à jour la couleur active
+
+### Exécution
+
+```bash
+powershell ./scripts/blue-green-deploy.ps1
+```
+
+#### Intégration CI
+
+Le script est exécuté automatiquement dans le pipeline GitHub Actions sur la branche `main`.
+
+Cette approche permet un déploiement continu sans interruption de service.
