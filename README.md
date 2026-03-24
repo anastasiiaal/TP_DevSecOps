@@ -20,10 +20,10 @@ Exemple : `feature/auth-login`
 - Revue obligatoire
 - Pas de merge direct sans validation
 
-### 🚫 Actions interdites
-- ❌ Aucun commit direct sur `main`
-- ❌ Aucun commit direct sur `develop`
-- ❌ Pas de merge commit si "Require linear history" est activé
+### Actions interdites ⚠️
+- Aucun commit direct sur `main`
+- Aucun commit direct sur `develop`
+- Pas de merge commit si "Require linear history" est activé
 
 ### Rule protection screenshot
 
@@ -218,10 +218,58 @@ On constate que :
 * Le reverse proxy `nginx` est **running**
 * Les services `backend-blue` et `frontend-blue` sont **démarrés**
 
-👉 À ce stade :
+À ce stade :
 
 * une première version de l’application (blue) est déployée
 * l’infrastructure est prête à accueillir une seconde version (green)
 * aucune bascule n’est encore configurée côté proxy
 
 ⚠️ L’application n’est pas encore accessible via le navigateur car le reverse proxy n’est pas encore configuré.
+
+### Mise en place du reverse proxy Nginx
+
+Un service Nginx est ajouté afin de centraliser l’accès utilisateur et router les requêtes vers la version active de l’application.
+
+Configuration initiale du proxy :
+````
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://backend-blue:3000;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+````
+Ainsi, le reverse proxy devient le point d’entrée unique de l’application.
+
+#### Test d’accès via le reverse proxy
+
+Après redémarrage du proxy :
+
+docker compose -f docker-compose.base.yml restart reverse-proxy
+
+L’application est accessible via :
+
+http://localhost
+
+![alt text](screenshots/tp5_2.png)
+
+Le backend répond correctement via Nginx (ex : Route not found), ce qui confirme que :
+
+- le reverse proxy fonctionne
+- la communication entre conteneurs est correcte
+- le routage vers backend-blue est opérationnel
+
+### Dans cette architecture :
+
+les services backend et frontend ne sont plus exposés directement
+seul Nginx est accessible via http://localhost
+
+**Cela permet :**
+
+- de centraliser les accès
+- de préparer la bascule blue/green
+- d’éviter les conflits de ports entre versions
