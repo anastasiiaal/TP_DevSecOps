@@ -275,3 +275,16 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
+  blue-green-deploy:
+    runs-on: self-hosted
+    needs: docker-images
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Deploy Blue/Green
+        run: powershell ./scripts/blue-green-deploy.ps1
+
