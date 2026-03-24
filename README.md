@@ -273,3 +273,68 @@ seul Nginx est accessible via http://localhost
 - de centraliser les accès
 - de préparer la bascule blue/green
 - d’éviter les conflits de ports entre versions
+
+###  Configuration du reverse proxy Nginx
+
+Un reverse proxy Nginx est mis en place afin de centraliser l’accès à l’application et permettre la gestion du déploiement blue/green.
+
+Deux fichiers de configuration sont utilisés :
+
+#### 1. `default.conf`
+
+Ce fichier contient la configuration principale du serveur Nginx :
+
+```nginx
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://backend;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+Il définit :
+
+* le point d’entrée (`http://localhost`)
+* le routage des requêtes vers un service backend abstrait (`backend`)
+
+
+#### 2. `active_backend.conf`
+
+Ce fichier permet de définir dynamiquement quelle version de l’application est active.
+
+Exemple (version blue) :
+
+```nginx
+upstream backend {
+    server backend-blue:3000;
+}
+```
+
+Ce fichier agit comme un interrupteur entre les versions `backend-blue` & `backend-green`
+
+
+### Principe de fonctionnement
+
+* Nginx reçoit toutes les requêtes utilisateur
+* Il redirige vers un `upstream` nommé `backend`
+* L’upstream est défini dans `active_backend.conf`
+* Changer ce fichier permet de basculer entre les versions sans redéployer
+
+### Validation
+
+L’application est accessible via http://localhost
+
+Résultat et le même qu'avant :
+
+![alt text](screenshots/tp5_2.png)
+
+La réponse du backend confirme que :
+
+* le reverse proxy fonctionne
+* la version **blue** est active
+* la communication entre conteneurs est opérationnelle
