@@ -134,6 +134,68 @@ ____
 - Image frontend : ghcr.io/anastasiiaal/cloudnative-frontend:52a81481d90206efe287db5f0efa257d9fddaa64
 ____
 
+# TP4 – Déploiement automatique de l’application depuis la CI locale
+
+### Déploiement local automatisé
+
+Le projet intègre un pipeline CI/CD complet exécuté sur un runner local self-hosted.
+
+### Workflow global
+````
+lint → build → tests → sonar → docker-images → deploy
+````
+
+Le stage deploy est exécuté automatiquement après la construction et la publication des images Docker.
+
+
+## Propriétés du déploiement
+
+- Le déploiement est automatique et lancé depuis GitHub Actions.
+- Il est exécuté sur un runner local self-hosted.
+- Il est idempotent : il peut être relancé plusieurs fois sans erreur.
+- Les données Postgres sont conservées, car aucune option destructrice n’est utilisée.
+- Les images sont récupérées depuis le registre distant GHCR avant redémarrage de la stack.
+
+## Déploiement automatisé
+
+Pour mettre en place le déploiement automatique, il faut :
+
+1. **Créer le script `/scripts/deploy.ps1`**
+   - ce script contient la logique de déploiement :
+     - arrêt des conteneurs existants,
+     - récupération des images Docker depuis le registre,
+     - redémarrage de la stack avec Docker Compose.
+
+2. **Ajouter le job `deploy` dans le fichier `/.github/workflows/ci.yml`**
+   - ce job est exécuté après le build et le push des images Docker,
+   - il appelle automatiquement le script `scripts/deploy.ps1`.
+
+3. **Générer et lancer un runner local self-hosted**
+   - le runner doit être configuré sur le dépôt GitHub,
+   - il doit être démarré localement avec `run.cmd`,
+   - il permet d’exécuter le pipeline directement sur la machine locale.
+
+## Résultat
+
+Une fois ces éléments configurés :
+
+- le pipeline GitHub Actions exécute automatiquement le job `deploy`,
+- le déploiement se lance sans intervention manuelle,
+- la stack est redémarrée depuis les images publiées dans le registre.
+
+## Captures
+- Runner crée
+![alt text](screenshots/tp4_3.png)
+
+- Runner configuré en local
+![alt text](screenshots/tp4_2.png)
+
+- Pipeline automatique exécuté avec succès  
+![alt text](screenshots/tp4_4.png)
+
+⚠️ Déploiement déclenché automatiquement lors des push sur la branche `main` et des merge requests
+
+____
 
 # Gym Management System
 
