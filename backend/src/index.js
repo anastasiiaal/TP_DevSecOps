@@ -9,6 +9,8 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const authRoutes = require('./routes/authRoutes');
 
+const client = require('prom-client');
+
 const app = express();
 app.disable('x-powered-by');
 const PORT = process.env.PORT || 3000;
@@ -20,6 +22,14 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics();
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
 
 // Routes
 app.use('/api/users', userRoutes);
