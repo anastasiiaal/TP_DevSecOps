@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  backend-green:
+    build: ./backend
+    container_name: backend_green
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  frontend-green:
+    build: ./frontend
+    container_name: frontend_green
+    environment:
+      VITE_API_BASE_URL: http://backend-green:3000/api
+    depends_on:
+      - backend-green
+    networks:
+      - app-network
+
+networks:
+  app-network:
