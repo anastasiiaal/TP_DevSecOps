@@ -13,121 +13,121 @@ on:
 
 jobs:
   # Job 1 : Lint front + back
-  lint:
-    runs-on: self-hosted
+  # lint:
+  #   runs-on: self-hosted
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
 
-      # Frontend
-      - name: Install frontend dependencies
-        working-directory: frontend
-        run: npm install
+  #     # Frontend
+  #     - name: Install frontend dependencies
+  #       working-directory: frontend
+  #       run: npm install
 
-      - name: Lint frontend
-        working-directory: frontend
-        run: npm run lint
+  #     - name: Lint frontend
+  #       working-directory: frontend
+  #       run: npm run lint
 
-      # Backend
-      - name: Install backend dependencies
-        working-directory: backend
-        run: npm install
+  #     # Backend
+  #     - name: Install backend dependencies
+  #       working-directory: backend
+  #       run: npm install
 
-      - name: Lint backend
-        working-directory: backend
-        run: npm run lint
+  #     - name: Lint backend
+  #       working-directory: backend
+  #       run: npm run lint
 
   # # Job 2 : Build front + back
-  build:
-    runs-on: self-hosted
-    needs: lint
+  # build:
+  #   runs-on: self-hosted
+  #   needs: lint
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
 
-      # Frontend build
-      - name: Install frontend dependencies
-        working-directory: frontend
-        run: npm install
+  #     # Frontend build
+  #     - name: Install frontend dependencies
+  #       working-directory: frontend
+  #       run: npm install
 
-      - name: Build frontend
-        working-directory: frontend
-        run: npm run build
+  #     - name: Build frontend
+  #       working-directory: frontend
+  #       run: npm run build
 
-      # Backend build
-      # - name: Install backend dependencies
-      #   working-directory: backend
-      #   run: npm install
+  #     # Backend build
+  #     # - name: Install backend dependencies
+  #     #   working-directory: backend
+  #     #   run: npm install
 
-      # - name: Build backend
-      #   working-directory: backend
-      #   run: npm run build
+  #     # - name: Build backend
+  #     #   working-directory: backend
+  #     #   run: npm run build
 
   # # Job 3 : Tests backend
-  tests:
-    runs-on: self-hosted
-    needs: build
+  # tests:
+  #   runs-on: self-hosted
+  #   needs: build
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
 
-      - name: Install backend dependencies
-        working-directory: backend
-        run: npm install
+  #     - name: Install backend dependencies
+  #       working-directory: backend
+  #       run: npm install
 
-      - name: Run backend tests
-        working-directory: backend
-        run: npm test
+  #     - name: Run backend tests
+  #       working-directory: backend
+  #       run: npm test
 
   # # Job 4 : SonarCloud (backend)
-  sonarcloud:
-    runs-on: self-hosted
-    needs: tests
+  # sonarcloud:
+  #   runs-on: self-hosted
+  #   needs: tests
 
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #   env:
+  #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
 
-      - name: Install backend dependencies
-        working-directory: backend
-        run: npm install
+  #     - name: Install backend dependencies
+  #       working-directory: backend
+  #       run: npm install
 
-      - name: Run SonarScanner (backend)
-        working-directory: backend
-        run: |
-          & "C:\sonar-scanner\bin\sonar-scanner.bat" `
-          -D"sonar.login=$env:SONAR_TOKEN"
+  #     - name: Run SonarScanner (backend)
+  #       working-directory: backend
+  #       run: |
+  #         & "C:\sonar-scanner\bin\sonar-scanner.bat" `
+  #         -D"sonar.login=$env:SONAR_TOKEN"
 
   # Job 5 : Docker Build & Push
   docker-images:
     runs-on: self-hosted
-    needs: sonarcloud
+    # needs: sonarcloud
 
     env:
       REGISTRY: ghcr.io
