@@ -510,7 +510,7 @@ Les métriques du backend sont interrogeables via Prometheus et permettent d’o
 
 Les logs de l’application sont collectés et centralisés grâce à Promtail et Loki.
 
-Principe
+### Principe
 - Promtail récupère les logs des conteneurs Docker
 - Les logs sont envoyés à Loki
 - Grafana interroge Loki pour afficher les logs
@@ -578,3 +578,33 @@ L’application est désormais observable en temps réel, ce qui permet :
 - de surveiller les performances
 - d’identifier rapidement les erreurs
 - de diagnostiquer les problèmes en production
+
+## Visualisation avec Grafana
+
+Un dashboard Grafana a été mis en place afin de visualiser les métriques collectées par Prometheus.
+
+### Configuration
+
+Grafana est connecté à Prometheus comme source de données, permettant d’interroger directement les métriques exposées par le backend.
+
+### Dashboard
+
+Un dashboard personnalisé a été créé avec plusieurs panels représentant les principales métriques système :
+
+- CPU usage
+- Memory usage
+- Open file descriptors
+- Uptime
+
+Chaque panel interroge Prometheus via des requêtes PromQL et affiche les données en temps réel.
+
+Le dashboard permet d’observer en temps réel :
+
+- l’utilisation CPU du backend
+- la consommation mémoire
+- les ressources système utilisées (descripteurs de fichiers)
+- le temps de fonctionnement de l’application
+
+Ces indicateurs facilitent la détection d’anomalies et l’analyse des performances. 
+
+![alt text](screenshots/tp6_7.png)
