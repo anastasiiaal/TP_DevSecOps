@@ -338,3 +338,46 @@ La réponse du backend confirme que :
 * le reverse proxy fonctionne
 * la version **blue** est active
 * la communication entre conteneurs est opérationnelle
+
+## Déploiement de la version Green
+
+Une seconde version de l’application est déployée en parallèle de la version blue :
+````
+docker compose -f docker-compose.base.yml -f docker-compose.green.yml up -d
+````
+Résultat :
+
+![alt text](screenshots/tp5_3.png)
+
+
+On voit que :
+
+- les services backend-green et frontend-green sont démarrés
+- les versions blue et green coexistent
+- aucune interruption de service n’est observée
+
+### Bascule vers la version Green
+
+La version active est modifiée via le fichier :
+`
+nginx/active_backend.conf
+`
+
+Puis le reverse proxy est rechargé :
+
+docker exec tp_reverse_proxy nginx -s reload
+
+Résultat :
+![alt text](screenshots/tp5_4.png)
+
+Le signal de reload est pris en compte par Nginx :
+````
+2026/03/24 12:27:13 [notice] 45#45: signal process started
+````
+#### Résultat final
+- la bascule vers green est instantanée
+- aucune reconstruction ou redéploiement n’est nécessaire
+- les deux versions peuvent coexister sans conflit
+- le rollback est possible à tout moment en modifiant la configuration
+
+Cette approche permet un déploiement sans interruption de service (zero downtime).
